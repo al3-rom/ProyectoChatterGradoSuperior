@@ -1,0 +1,12 @@
+export { default as AuthPage } from "./Auth";
+export { default as Dashboard } from "./Dashboard";
+export { default as Profile } from "./Profile";
+export { default as EditProfile } from "./EditProfile";
+export { default as UpdatePassword } from "./UpdatePassword";
+export { default as NotFoundPage } from "./NotFoundPage";
+export { default as Users } from "./Users";
+export { default as Bios } from "./Bios";
+export { default as Bio } from "./Bio";
+export { default as Chats } from "./Chats";
+export { default as Chat } from './Chat'
+export { default as User } from './User'

@@ -1,0 +1,27 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@font-face {
+  font-family: 'Geist';
+  src: url('./assets/fonts/Geist-VariableFont_wght.ttf') format('truetype');
+}
+
+
+$theme-colors: map-merge(
+  $theme-colors,
+  (
+    "primary": #6c2bd9,
+    "violet": #8b5cf6,
+    "purple": #7c3aed,
+    "fuchsia": #c026d3,
+    "rose": #e11d48,
+    "sky": #0ea5e9,
+    "emerald": #10b981,
+  )
+);
+
+body {
+  font-family: "Geist", sans-serif !important;
+}
+
+
+@import "bootstrap/scss/bootstrap";
