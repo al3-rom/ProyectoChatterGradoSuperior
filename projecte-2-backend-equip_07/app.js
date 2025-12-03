@@ -22,7 +22,8 @@ const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || 'localhost';
 
 const allowedOrigins = [
-  'http://localhost:5173',      
+  'http://localhost:5173',
+  /^https:\/\/.*\.vercel\.app$/,
   process.env.FRONTEND_URL,    
 ].filter(Boolean);
 
