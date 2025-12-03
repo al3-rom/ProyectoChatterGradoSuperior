@@ -14,6 +14,7 @@ export default function Chats() {
   const { userInfo } = useContext(UserInfo);
   const [chats, setChats] = useState([]);
   const { addToast } = useToast();
+  const [chatExists, setChatExist] = useState(true)
 
   const allChats = async () => {
     try {
@@ -36,11 +37,14 @@ export default function Chats() {
       }
 
       const data = await res.json();
-      if(data) {
+      if(data.data.chats.length > 0) {
         setChats(data.data.chats);
+        setChatExist(true)
       } else {
-        console.log("ERR en chats")
+        setChatExist(false)
+        setChats([])
       }
+
       
     } catch (err) {
       console.log(err);
@@ -156,6 +160,10 @@ export default function Chats() {
     e.preventDefault();
     setHasSearched(true);
 
+    if(chats.length == 0) {
+      setHasSearched(false)
+    }
+
     try {
       const res = await fetch(`${ruta_api}/chats?q=${nombreChat}`, {
         method: "GET",
@@ -179,7 +187,9 @@ export default function Chats() {
 
       if (data) {
         setChats(data.data.chats);
-      }
+      } 
+
+    
     } catch (err) {
       console.log(err);
     }
@@ -281,13 +291,20 @@ export default function Chats() {
                   <p className="mb-0">{chatNotFound}</p>
                 </div>
               ) : (
-                <div className="p-4 text-center text-muted">
+                chatExists ? (
+                  <div className="p-4 text-center text-muted">
                   <div
                     className="spinner-border spinner-border-sm mb-2"
                     role="status"
                   />
                   <p className="mb-0">{chatLoading}</p>
                 </div>
+                ) : (
+                 <div className="p-4 text-center text-muted">
+                  <p className="mb-0">No hay chats en la base de datos!</p>
+                </div>
+                )
+                
               )}
             </div>
           </div>

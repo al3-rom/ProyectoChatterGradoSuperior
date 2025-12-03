@@ -7,7 +7,6 @@ export default function Users() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [nombreMail, setNombreMail] = useState("");
   const ruta_api = import.meta.env.VITE_API_URL;
-  const userNullError = "Cargando usuarios...";
   const userNotFound =
     "No hemos podido encontrar usuario con estas credencias!";
   const [hasSearched, setHasSearched] = useState(false);
@@ -38,7 +37,7 @@ export default function Users() {
         }
 
         const data = await res.json();
-        
+
         setUsers(data.data.users);
         setResultado(data.data.users.length);
       } catch (err) {
@@ -129,36 +128,49 @@ export default function Users() {
             </form>
           </div>
 
-          {resultado > 0 ? (
-            <table className="table table-hover table-striped table-sm">
-              <thead>
-                <tr>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Idiomas</th>
-                </tr>
-              </thead>
+          <table className="table table-hover table-striped table-sm">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Email</th>
+                <th scope="col">Idiomas</th>
+              </tr>
+            </thead>
+
+            {resultado > 0 ? (
               <tbody>
                 {userInfo.map((user) => (
                   <tr key={user.id} className="shadow-sm rounded ">
                     <td className="p-2">{user.nombre}</td>
                     <td>{user.email}</td>
-                    
+
                     <td>
                       {Array.isArray(user.idiomas) && user.idiomas.length > 0
                         ? user.idiomas.join(", ")
                         : "No hay idiomas"}
                     </td>
-                    <td><Link to={`/users/${user.id}`} className="btn btn-outline-info btn-sm px-3 mx-2">Ver info de usuario</Link></td>
+                    <td>
+                      <Link
+                        to={`/users/${user.id}`}
+                        className="btn btn-outline-info btn-sm px-3 mx-2"
+                      >
+                        Ver info de usuario
+                      </Link>
+                    </td>
                   </tr>
                 ))}
               </tbody>
-            </table>
-          ) : hasSearched ? (
-            userNotFound
-          ) : (
-            userNullError
-          )}
+            ) : hasSearched ? (
+              userNotFound
+            ) : (
+              <div className="d-flex align-items-center">
+                <strong role="status">Loading</strong>
+                <div className="spinner-grow spinner-grow-sm mx-1" role="status">
+                  <span className="visually-hidden" >Loading...</span>
+                </div>
+              </div>
+            )}
+          </table>
         </div>
       </section>
     </>

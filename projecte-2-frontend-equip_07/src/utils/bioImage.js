@@ -1,32 +1,25 @@
 export function getBioImageUrl(imageInfo, title = "") {
-  // === 1) Если есть изображение в базе → возвращаем ===
-  // Support a few possible shapes received from the API:
-  // - a data URL string ('data:image/...')
-  // - a plain base64 string
-  // - an object with .data which is an Array or Buffer-like
-  // - nested shapes where .data.data holds the array
+
   if (imageInfo) {
-    // Already a data URL
+
     if (typeof imageInfo === "string") {
       if (imageInfo.startsWith("data:")) return imageInfo;
       return `data:image/jpeg;base64,${imageInfo}`;
     }
 
-    // Try to extract raw byte array from known nested shapes
     let raw = null;
 
     if (imageInfo.data) {
-      // Case: imageInfo.data is an array of bytes
+
       if (Array.isArray(imageInfo.data)) raw = imageInfo.data;
-      // Case: imageInfo.data.data is the array (e.g. { data: { data: [...] } })
+
       else if (imageInfo.data.data && Array.isArray(imageInfo.data.data)) raw = imageInfo.data.data;
-      // Case: Buffer-like views (ArrayBuffer, TypedArray)
+
       else if (ArrayBuffer.isView(imageInfo.data) || imageInfo.data instanceof ArrayBuffer) raw = new Uint8Array(imageInfo.data);
-      // Some serializers bring a .buffer property
+ 
       else if (imageInfo.data.buffer && imageInfo.data.buffer.data && Array.isArray(imageInfo.data.buffer.data)) raw = imageInfo.data.buffer.data;
     }
 
-    // If the top-level object itself is a Buffer-like
     if (!raw) {
       if (imageInfo.data && imageInfo.data.constructor && imageInfo.data.constructor.name === 'Buffer' && imageInfo.data.data) raw = imageInfo.data.data;
       else if (imageInfo.constructor && imageInfo.constructor.name === 'Buffer' && imageInfo.data) raw = imageInfo.data;
@@ -42,26 +35,23 @@ export function getBioImageUrl(imageInfo, title = "") {
     }
   }
 
-  // === 2) Нет изображения → SVG-фоллбек ===
   if (!title) title = "?";
   const displayTitle = title.length > 20 ? title.slice(0, 20) + "…" : title;
 
-  // Стабильные цвета по хэшу
   const hashToColor = (str, offset = 0) => {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
       hash = str.charCodeAt(i) + ((hash << 5) - hash);
     }
     const h = Math.abs((hash + offset) % 360);
-    const s = 70; // насыщенность
-    const l = 55; // яркость
+    const s = 70; 
+    const l = 55; 
     return `hsl(${h}, ${s}%, ${l}%)`;
   };
 
   const color1 = hashToColor(title, 0);
   const color2 = hashToColor(title, 1000);
 
-  // Размер шрифта адаптивно по длине заголовка
   const fontSize = displayTitle.length > 15 ? 20 : 24;
 
   const svg = `

@@ -6,7 +6,6 @@ import { Logout } from "../utils/logout";
 
 export default function Dashboard() {
   const { userInfo } = useContext(UserInfo);
-  const [hayIdiomas, setHayIdiomas] = useState(false);
 
   if (!userInfo) {
     return <div className="p-5 text-center">Cargando perfil...</div>;
@@ -14,10 +13,8 @@ export default function Dashboard() {
 
   if(userInfo.idiomes[0] >= 3) {
     var idiomas = userInfo.idiomes[0] 
-    setHayIdiomas(!hayIdiomas)
   }
 
-  
   const avatarUrl = getAvatarUrl(userInfo);
 
   return (

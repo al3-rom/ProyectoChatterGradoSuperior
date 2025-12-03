@@ -19,14 +19,12 @@ export default function DeleteBio({ bio, bioId, onDeleted }) {
                 },
             });
 
-            // Some APIs return 204 No Content for successful DELETE
             if (response.status === 204 || response.ok) {
                 addToast("Bio eliminada correctamente", "success");
                 if (onDeleted) onDeleted();
                 return;
             }
 
-            // Try to parse JSON body for error details
             let result = {};
             try {
                 result = await response.json();

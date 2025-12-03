@@ -4,6 +4,7 @@ import { getBioImageUrl } from "../utils/bioImage";
 import { useParams, Link, useNavigate } from "react-router";
 import EditBio from "../components/EditBio";
 import DeleteBio from "../components/DeleteBio";
+import BioKisses from "../components/BioKisses";
 
 export default function Bio() {
     const { token } = useContext(UserAuth);
@@ -76,23 +77,28 @@ export default function Bio() {
 
             <div className="card shadow-sm border-0 overflow-hidden position-relative">
 
-                {userInfo?.email === bio?.author?.email && (
-                    <div className="dropdown position-absolute" style={{ top: "10px", right: "10px", zIndex: 10 }}>
-                        <button className="btn btn-outline-primary btn-sm rounded-circle shadow" data-bs-toggle="dropdown">
-                            <i className="bi bi-three-dots-vertical"></i>
-                        </button>
-                        <ul className="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateBioModal">Editar</button>
-                            </li>
-                            <li>
-                                <button className="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteBioModal">Eliminar</button>
-                            </li>
-                            <li><hr className="dropdown-divider" /></li>
-                            <li><button className="dropdown-item">Cancelar</button></li>
-                        </ul>
-                    </div>
-                )}
+                <div className="dropdown position-absolute" style={{ top: "10px", right: "10px", zIndex: 10 }}>
+                    <button className="btn btn-outline-primary btn-sm rounded-circle shadow" data-bs-toggle="dropdown">
+                        <i className="bi bi-three-dots-vertical"></i>
+                    </button>
+                    <ul className="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <button className="dropdown-item" onClick={() => setSelectedBio(bio)} data-bs-toggle="modal" data-bs-target="#viewBioKissesModal">Ver likes</button>
+                        </li>
+                        {userInfo.email === bio.author.email && (
+                            <>
+                                <li>
+                                    <button className="dropdown-item" onClick={() => setSelectedBio(bio)} data-bs-toggle="modal" data-bs-target="#updateBioModal">Editar</button>
+                                </li>
+                                <li>
+                                    <button className="dropdown-item text-danger" onClick={() => setSelectedBio(bio)} data-bs-toggle="modal" data-bs-target="#deleteBioModal">Eliminar</button>
+                                </li>
+                            </>
+                        )}
+                        <li><hr className="dropdown-divider" /></li>
+                        <li><button className="dropdown-item">Cancelar</button></li>
+                    </ul>
+                </div>
 
                 <img
                     src={getBioImageUrl(bio.image, bio.title)}
@@ -141,8 +147,10 @@ export default function Bio() {
 
                     </div>
 
-                <EditBio bio={bio} onUpdated={getBio} />
-                <DeleteBio bio={bio} onDeleted={() => navigate('/bios')} />
+                    <EditBio bio={bio} onUpdated={getBio} />
+                    <DeleteBio bio={bio} onDeleted={() => navigate('/bios')} />
+
+                    <BioKisses bio={bio} />
 
                 </div>
 

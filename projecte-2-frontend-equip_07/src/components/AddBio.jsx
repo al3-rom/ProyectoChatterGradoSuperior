@@ -76,13 +76,11 @@ export default function AddBio({ onCreated }) {
       if (result.success) {
         addToast("Bio creada correctamente", "success");
 
-        // очистка формы
         setFormData(emptyForm);
         setErrors({});
         setTags([]);
         initialDataRef.current = emptyForm;
 
-        // уведомляем родителя (ListBios) об обновлении
         if (onCreated) onCreated();
       } else {
         addToast(result.message || "Error al crear bio", "error");
@@ -169,7 +167,7 @@ export default function AddBio({ onCreated }) {
               </form>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
               <button type="submit" form="addBioForm" className="btn btn-primary">Crear bio</button>
             </div>
           </div>

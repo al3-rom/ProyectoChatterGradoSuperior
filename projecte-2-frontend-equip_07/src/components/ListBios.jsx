@@ -87,23 +87,28 @@ export default function ListBios({ searchQuery, setSelectedBio, personalOnly = f
                     <div key={bio._id} className="col-12 col-md-6 col-lg-4">
                         <div className="card h-100 shadow-sm border-0 overflow-hidden position-relative">
 
-                            {userInfo.email === bio.author.email && (
-                                <div className="dropdown position-absolute" style={{ top: "10px", right: "10px", zIndex: 10 }}>
-                                    <button className="btn btn-outline-primary btn-sm rounded-circle shadow" data-bs-toggle="dropdown">
-                                        <i className="bi bi-three-dots-vertical"></i>
-                                    </button>
-                                    <ul className="dropdown-menu dropdown-menu-end">
-                                        <li>
-                                            <button className="dropdown-item" onClick={() => setSelectedBio(bio)} data-bs-toggle="modal" data-bs-target="#updateBioModal">Editar</button>
-                                        </li>
-                                        <li>
-                                            <button className="dropdown-item text-danger" onClick={() => setSelectedBio(bio)} data-bs-toggle="modal" data-bs-target="#deleteBioModal">Eliminar</button>
-                                        </li>
-                                        <li><hr className="dropdown-divider" /></li>
-                                        <li><button className="dropdown-item">Cancelar</button></li>
-                                    </ul>
-                                </div>
-                            )}
+                            <div className="dropdown position-absolute" style={{ top: "10px", right: "10px", zIndex: 10 }}>
+                                <button className="btn btn-outline-primary btn-sm rounded-circle shadow" data-bs-toggle="dropdown">
+                                    <i className="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul className="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <button className="dropdown-item" onClick={() => setSelectedBio(bio)} data-bs-toggle="modal" data-bs-target="#viewBioKissesModal">Ver likes</button>
+                                    </li>
+                                    {userInfo.email === bio.author.email && (
+                                        <>
+                                            <li>
+                                                <button className="dropdown-item" onClick={() => setSelectedBio(bio)} data-bs-toggle="modal" data-bs-target="#updateBioModal">Editar</button>
+                                            </li>
+                                            <li>
+                                                <button className="dropdown-item text-danger" onClick={() => setSelectedBio(bio)} data-bs-toggle="modal" data-bs-target="#deleteBioModal">Eliminar</button>
+                                            </li>
+                                        </>
+                                    )}
+                                    <li><hr className="dropdown-divider" /></li>
+                                    <li><button className="dropdown-item">Cancelar</button></li>
+                                </ul>
+                            </div>
 
                             <Link to={`/bios/${bio._id}`}>
                                 <img

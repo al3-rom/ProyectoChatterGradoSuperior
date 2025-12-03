@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useTagInput } from "../utils/tags";
+import { useToast } from "../providers/ToastProvider";
+import { useNavigate } from "react-router";
 
 const emptyForm = {
     name: "",
@@ -15,6 +17,8 @@ const emptyForm = {
 export default function Register() {
     const [formData, setFormData] = useState(emptyForm);
     const [errors, setErrors] = useState({});
+    const { addToast } = useToast();
+    const navigate = useNavigate();
 
     const {
         tags: languages,
@@ -76,7 +80,14 @@ export default function Register() {
             body: data,
         });
         const result = await response.json();
-        console.log(result);
+
+        if (!response.succes) {
+            addToast(result.message || "Error al registrar usuario", "error")
+        }
+        else {
+            addToast("Usuario registrado correctamente", "success");
+            navigate("/login");
+        }
     };
 
 

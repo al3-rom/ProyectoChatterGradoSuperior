@@ -46,10 +46,10 @@ export const authLogin = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
-    if (!user) return sendError(res, 'Authentication failed. User not found.', 404);
+    if (!user) return sendError(res, 'Autenticación fallida. Usuario no encontrado.', 404);
 
     const isValid = await comparePassword(password, user.password);
-    if (!isValid) return sendError(res, 'Authentication failed. Incorrect password.', 403);
+    if (!isValid) return sendError(res, 'Autenticación fallida. Contraseña incorrecta.', 403);
 
     const payload = { user: user.id, timestamp: Date.now() };
     const accessToken = signAccessToken(payload);

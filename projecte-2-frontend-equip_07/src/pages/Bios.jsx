@@ -3,6 +3,7 @@ import AddBio from "../components/AddBio";
 import EditBio from "../components/EditBio";
 import DeleteBio from "../components/DeleteBio";
 import ListBios from "../components/ListBios";
+import BioKisses from "../components/BioKisses";
 import { useSearchParams } from "react-router";
 
 export default function Bios() {
@@ -86,6 +87,8 @@ export default function Bios() {
           setSelectedBio(null);
         }}
       />
+
+      <BioKisses bio={selectedBio} />
 
       <div className="btn-group w-100">
         <button

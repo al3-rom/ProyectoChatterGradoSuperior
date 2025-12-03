@@ -15,23 +15,11 @@ import prueba from './routes/prueba.js';
 
 const app = express();
 
-// connect to database
-connectToDatabase();
-
-const PORT = process.env.PORT || 3000;
-const HOST = process.env.HOST || 'localhost';
-
 const allowedOrigins = [
   'http://localhost:5173',
   /^https:\/\/.*\.vercel\.app$/,
   process.env.FRONTEND_URL,    
 ].filter(Boolean);
-
-// middlewares
-registrarEstrategiaJwtPassport(passport);
-app.use(passport.initialize());
-
-app.use(express.json());
 
 app.use(
   cors({
@@ -39,6 +27,18 @@ app.use(
     credentials: true, 
   })
 );
+
+// connect to database
+connectToDatabase();
+
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || 'localhost';
+
+// middlewares
+registrarEstrategiaJwtPassport(passport);
+app.use(passport.initialize());
+
+app.use(express.json());
 
 // Log helpers
 const log = (msg) => console.log(`\x1b[36m▶\x1b[0m ${msg}`);
