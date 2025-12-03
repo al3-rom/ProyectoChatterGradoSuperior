@@ -1,5 +1,5 @@
 export { default as AuthPage } from "./Auth";
-export { default as Dashboard } from "./Dashboard";
+export { default as Dashboard } from "./DashBoard";
 export { default as Profile } from "./Profile";
 export { default as EditProfile } from "./EditProfile";
 export { default as UpdatePassword } from "./UpdatePassword";
